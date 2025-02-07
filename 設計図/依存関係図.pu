@@ -1,1 +1,44 @@
-
+@startuml
+start
+:タイトル画面表示;
+repeat
+  if (Enterキー) then (yes)
+    :画面クリア;
+    :商品一覧表示;
+    repeat
+      :商品番号入力;
+      if (cが入力されたか？) then (yes)
+        break
+      else (no)
+        if (正しい商品番号か？) then (no)
+          :エラーメッセージ表示;
+        else (yes)
+          :購入リストに追加;
+        endif
+      endif
+    repeat while (cが入力されるまで)
+    :購入商品一覧表示;
+    :合計金額計算;
+    :現金投入受付;
+    if (金額不足) then (yes)
+      :エラーメッセージ表示;
+      :タイトル画面に戻る;
+    else (no)
+      if (正の数か？) then (no)
+        :エラーメッセージ表示;
+        :タイトル画面に戻る;
+      else (yes)
+        :おつり計算;
+        :購入完了メッセージ;
+        :タイトル画面に戻る;
+      endif
+    endif
+  else if (ESCキー) then (yes)
+    :管理画面表示;
+  else if (qキー) then (yes)
+    :終了;
+    stop
+  endif
+repeat while (シミュレータ継続)
+stop
+@enduml
