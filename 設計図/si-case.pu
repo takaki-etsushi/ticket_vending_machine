@@ -1,0 +1,24 @@
+@startuml 管理画面シーケンス図コード
+actor Admin
+participant "VendingMachine" as VM
+
+Admin -> VM: ESCキー押下
+activate VM
+
+VM -> VM: show_admin_menu()
+
+alt 売上リセット
+  Admin -> VM: '1'選択
+  VM -> VM: reset_sales()
+  VM --> Admin: リセット完了
+else 価格変更
+  Admin -> VM: '2'選択
+  VM -> VM: show_sales_report()
+  Admin -> VM: 商品IDと価格入力
+  VM -> VM: change_price()
+  VM --> Admin: 変更結果表示
+end
+
+VM --> Admin: 管理画面終了
+deactivate VM
+@enduml

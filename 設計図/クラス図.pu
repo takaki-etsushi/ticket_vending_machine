@@ -1,0 +1,22 @@
+@startuml クラス図
+class VendingMachine {
+  - products: dict
+  - cart: dict
+  + __init__()
+  + clear_screen()
+  + show_title()
+  + show_menu()
+  + process_purchase(): bool
+  + run()
+  + show_admin_menu()
+  + show_sales_report()
+  + reset_sales()
+  + change_price()
+}
+
+note top of VendingMachine
+  商品管理と購入処理を担当
+  ・products: {ID: 商品情報}
+  ・cart: {商品ID: 数量}
+end note
+@enduml

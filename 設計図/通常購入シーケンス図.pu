@@ -1,0 +1,29 @@
+@startuml 通常購入シーケンス図
+actor User
+participant "VendingMachine" as VM
+
+User -> VM: Enterキー押下 (run())
+activate VM
+
+VM -> VM: show_title()
+VM -> VM: show_menu()
+
+loop 商品選択
+  User -> VM: 商品番号入力
+  VM -> VM: カートに追加
+end
+
+User -> VM: 'c'入力 (支払い)
+VM -> VM: 合計計算
+
+alt 支払い成功
+  User -> VM: 金額投入
+  VM -> VM: おつり計算
+  VM -> VM: 売上更新
+  VM --> User: 購入完了
+else 支払い失敗
+  VM --> User: エラー表示
+end
+
+deactivate VM
+@enduml
