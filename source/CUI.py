@@ -112,43 +112,73 @@ class VendingMachine:
                     print(f"エラーが発生しました: {e}")
                     break
 
-def show_admin_menu(self):
-        self.clear_screen()
-        print("***********************")
-        print("\n       管理画面")
-        print("\n***********************")
+    def show_admin_menu(self):
+            self.clear_screen()
+            print("***********************")
+            print("\n       管理画面")
+            print("\n***********************")
+            self.show_sales_report()
+            
+            while True:
+                print("\n=== 管理メニュー ====")
+                print("\n1. 売上をリセットする")
+                print("\n2. 商品の価格を変更する")
+                print("\n3. 管理画面を終了する")
+                print("\n———")
+                
+                choice = input("\n管理コード入力:")
+                if choice == "1":
+                    self.reset_sales()
+                elif choice == "2":
+                    self.change_price()
+                elif choice == "3":
+                    break
+
+    def show_sales_report(self):
+        print("\n======= 商品一覧 =======")
+        print("\n商品      単価  販売数  売上金額")
+        print("\n=======================")
+        total_revenue = 0
+        for id, product in self.products.items():
+            revenue = product["revenue"]
+            total_revenue += revenue
+            print(f"{id}.{product['name']} {product['price']}円  {product['sales']}   {revenue:,}円")
+        print("\n———")
+        print(f"\n総売上金額 {total_revenue:,}円")
+
+    def reset_sales(self):
+        for product in self.products.values():
+            product["sales"] = 0
+            product["revenue"] = 0
+        print("\n売上をリセットしました。")
         self.show_sales_report()
         
-        while True:
-            print("\n=== 管理メニュー ====")
-            print("\n1. 売上をリセットする")
-            print("\n2. 商品の価格を変更する")
-            print("\n3. 管理画面を終了する")
-            print("\n———")
+    def change_price(self):
+        self.show_sales_report()
+        
+        try:
+            product_id = int(input("\n価格を変更する商品の番号を入力してください。>"))
+            if product_id not in self.products:
+                print("無効な商品番号です。")
+                return
             
-            choice = input("\n管理コード入力:")
-            if choice == "1":
-                self.reset_sales()
-            elif choice == "2":
-                self.change_price()
-            elif choice == "3":
-                break
+            new_price = int(input("\n変更金額を入力してください。> "))
+            if new_price <= 0:
+                print("正しい金額を入力してください。")
+                return
+            
+            print(f"\n【{product_id}.{self.products[product_id]['name']} {new_price}円】に変更します。")
+            confirm = input("\nよろしいですか(Y/N）>")
+            
+            if confirm.lower() == 'y':
+                self.products[product_id]["price"] = new_price
+                print("\n変更しました。")
+                self.show_sales_report()
+            
+        except ValueError:
+            print("正しい値を入力してください。")
 
-def show_sales_report(self):
-    print("\n======= 商品一覧 =======")
-    print("\n商品      単価  販売数  売上金額")
-    print("\n=======================")
-    total_revenue = 0
-    for id, product in self.products.items():
-        revenue = product["revenue"]
-        total_revenue += revenue
-        print(f"{id}.{product['name']} {product['price']}円  {product['sales']}   {revenue:,}円")
-    print("\n———")
-    print(f"\n総売上金額 {total_revenue:,}円")
-
-def reset_sales(self):
-    for product in self.products.values():
-        product["sales"] = 0
-        product["revenue"] = 0
-    print("\n売上をリセットしました。")
-    self.show_sales_report()
+# メインプログラムの実行
+if __name__ == "__main__":
+    vending_machine = VendingMachine()
+    vending_machine.run()
