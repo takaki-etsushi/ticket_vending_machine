@@ -2,7 +2,7 @@
 
 ## プラットフォーム：
 動作環境：PC
-* 開発言語： Python、仮想環境venv
+* 開発言語： Python
 * 開発環境： VScode
 * テスト環境： unittest、pytest
 
