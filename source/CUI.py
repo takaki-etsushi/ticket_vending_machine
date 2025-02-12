@@ -90,4 +90,24 @@ class VendingMachine:
                 except ValueError:
                     print("正しい金額を入力してください。")
                     return False
-
+    def run(self):
+            while True:
+                self.show_title()
+                try:
+                    key = msvcrt.getch()  # キー入力を待機
+                    
+                    # ESCキー (27) が押された場合
+                    if key == bytes([27]):
+                        self.show_admin_menu()
+                    # qキーが押された場合
+                    elif key.lower() == b'q':
+                        sys.exit()
+                    # Enterキー (13) が押された場合
+                    elif key == bytes([13]):
+                        self.clear_screen()
+                        self.show_menu()
+                        self.process_purchase()
+                        input("\nEnterキーを押してください...")
+                except Exception as e:
+                    print(f"エラーが発生しました: {e}")
+                    break
